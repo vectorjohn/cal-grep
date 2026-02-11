@@ -1,7 +1,7 @@
 import { Readable } from "node:stream";
 import { text } from "node:stream/consumers";
 
-export async function main(input: Readable): Promise<void> {
+export async function main(input: Readable): Promise<Readable> {
   const content = await text(input);
-  console.log(content);
+  return Readable.from(content);
 }
