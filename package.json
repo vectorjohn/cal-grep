@@ -1,0 +1,21 @@
+{
+  "name": "calendar-pipe",
+  "version": "1.0.0",
+  "description": "Takes an ical file and lets you filter and modify it like grep or sed do.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "calgrep": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}
