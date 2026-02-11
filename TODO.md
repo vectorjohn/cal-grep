@@ -6,5 +6,5 @@
   ~~e. It should have unit tests with a placeholder test.~~
   ~~f. At this point, it should simply print "Hello world" when run.~~
 ~~1. Read a calendar from standard input.~~
-2. Parse the calendar into some intermediate DTO.
+~~2. Parse the calendar into some intermediate DTO.~~
 3. Output the number of events (proof of concept)
