@@ -13,6 +13,7 @@
   },
   "keywords": [],
   "author": "",
+  "homepage": "https://github.com/vectorjohn/cal-grep",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^25.2.3",
