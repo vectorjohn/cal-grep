@@ -1,3 +1,18 @@
+export enum VEventField {
+  SUMMARY = "SUMMARY",
+  DESCRIPTION = "DESCRIPTION",
+  LOCATION = "LOCATION",
+  STATUS = "STATUS",
+  UID = "UID",
+  DTSTART = "DTSTART",
+  DTEND = "DTEND",
+  CREATED = "CREATED",
+  DTSTAMP = "DTSTAMP",
+  SEQUENCE = "SEQUENCE",
+  URL = "URL",
+  CONTACT = "CONTACT",
+}
+
 export interface VEvent {
   properties: Map<string, string>;
 }
