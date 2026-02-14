@@ -28,4 +28,33 @@ describe("main", () => {
     expect(content).toContain("BEGIN:VCALENDAR");
     expect(content).toContain("END:VCALENDAR");
   });
+
+  it("should filter events by keyword", async () => {
+    const output = await main(fixtureStream(), ["Beaverton"]);
+    const filtered = await parseCalendar(output);
+
+    expect(filtered.events.length).toBeGreaterThan(0);
+    expect(filtered.events.length).toBeLessThan(279);
+
+    for (const event of filtered.events) {
+      const summary = event.properties.get("SUMMARY") ?? "";
+      const description = event.properties.get("DESCRIPTION") ?? "";
+      const combined = (summary + " " + description).toLowerCase();
+      expect(combined).toContain("beaverton");
+    }
+  });
+
+  it("should apply multiple keywords as AND filters", async () => {
+    const output = await main(fixtureStream(), ["Beaverton", "Happy Hour"]);
+    const filtered = await parseCalendar(output);
+
+    expect(filtered.events.length).toBeGreaterThan(0);
+    for (const event of filtered.events) {
+      const summary = event.properties.get("SUMMARY") ?? "";
+      const description = event.properties.get("DESCRIPTION") ?? "";
+      const combined = (summary + " " + description).toLowerCase();
+      expect(combined).toContain("beaverton");
+      expect(combined).toContain("happy hour");
+    }
+  });
 });
