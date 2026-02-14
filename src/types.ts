@@ -13,6 +13,16 @@ export enum VEventField {
   CONTACT = "CONTACT",
 }
 
+export enum WeekDay {
+  SUNDAY = "sunday",
+  MONDAY = "monday",
+  TUESDAY = "tuesday",
+  WEDNESDAY = "wednesday",
+  THURSDAY = "thursday",
+  FRIDAY = "friday",
+  SATURDAY = "saturday",
+}
+
 export interface VEvent {
   properties: Map<string, string>;
 }

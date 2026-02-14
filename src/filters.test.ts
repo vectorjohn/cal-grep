@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { createReadStream } from "node:fs";
 import { resolve } from "node:path";
-import { withKeyword } from "./filters.js";
+import { withKeyword, onDays } from "./filters.js";
 import { parseCalendar } from "./ical-reader.js";
-import { VEvent, VEventField } from "./types.js";
+import { VEvent, VEventField, WeekDay } from "./types.js";
 
 function makeEvent(fields: Partial<Record<VEventField, string>>): VEvent {
   const properties = new Map<string, string>();
@@ -64,5 +64,43 @@ describe("withKeyword", () => {
       const combined = (summary + " " + description).toLowerCase();
       expect(combined).toContain("beaverton");
     }
+  });
+});
+
+describe("onDays", () => {
+  it("should match events on the specified day", () => {
+    // 2026-01-13 is a Tuesday (local time, no Z suffix)
+    const event = makeEvent({ [VEventField.DTSTART]: "20260113T120000" });
+
+    expect(onDays([WeekDay.TUESDAY])(event)).toBe(true);
+  });
+
+  it("should not match events on other days", () => {
+    // 2026-01-13 is a Tuesday (local time)
+    const event = makeEvent({ [VEventField.DTSTART]: "20260113T120000" });
+
+    expect(onDays([WeekDay.MONDAY])(event)).toBe(false);
+    expect(onDays([WeekDay.WEDNESDAY])(event)).toBe(false);
+  });
+
+  it("should match when event falls on any of the specified days", () => {
+    // 2026-01-13 is a Tuesday (local time)
+    const event = makeEvent({ [VEventField.DTSTART]: "20260113T120000" });
+
+    expect(onDays([WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY])(event)).toBe(true);
+  });
+
+  it("should return false for events without DTSTART", () => {
+    const event = makeEvent({ [VEventField.SUMMARY]: "No date" });
+
+    expect(onDays([WeekDay.MONDAY])(event)).toBe(false);
+  });
+
+  it("should work with Array.filter on real data", async () => {
+    const calendar = await parseCalendar(fixtureStream());
+    const mondayEvents = calendar.events.filter(onDays([WeekDay.MONDAY]));
+
+    expect(mondayEvents.length).toBeGreaterThan(0);
+    expect(mondayEvents.length).toBeLessThan(calendar.events.length);
   });
 });
