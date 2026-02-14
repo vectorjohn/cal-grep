@@ -5,6 +5,14 @@ import { withKeyword, onDays } from "./filters.js";
 import { ParsedArgs } from "./args.js";
 import { VEvent } from "./types.js";
 
+export { parseCalendar } from "./ical-reader.js";
+export { writeCalendar } from "./ical-writer.js";
+export { withKeyword, onDays } from "./filters.js";
+export { parseArgs } from "./args.js";
+export type { ParsedArgs } from "./args.js";
+export { VEventField, WeekDay } from "./types.js";
+export type { VEvent, Calendar } from "./types.js";
+
 export async function main(
   input: Readable,
   args?: ParsedArgs,
